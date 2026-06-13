@@ -249,8 +249,8 @@ function bukaModal(id) {
 
   document.getElementById('dokumen-cetak').innerHTML = `
     <div class="dok-kop">
-      <div class="judul-utama">Satuan Tugas Gulkarmat Jakarta Utara</div>
-      <div class="sub-judul">Kelurahan ${kel} &nbsp;·&nbsp; Kecamatan ${kec} &nbsp;·&nbsp; Kota Administrasi Jakarta Utara</div>
+      <div class="judul-utama">Satuan Tugas Penanggulangan Kebakaran<br>dan Penyelamatan Kota Administrasi Jakarta Utara</div>
+      <div class="sub-judul">Kelurahan ${kel} &nbsp;·&nbsp; Kecamatan ${kec}</div>
     </div>
 
     <div class="dok-judul-doc">
