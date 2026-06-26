@@ -254,7 +254,7 @@ function bukaModal(id) {
     </div>
 
     <div class="dok-judul-doc">
-      <div class="judul-dialog">Dialog Kinerja</div>
+      <div class="judul-dialog">Bukti Dukung Dialog Kinerja</div>
       <div class="sub-dialog">${baris.indikator}</div>
       <div class="sub-dialog">Bulan ${bulan} &nbsp;·&nbsp; ${labelPeriode}</div>
     </div>
