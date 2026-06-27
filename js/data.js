@@ -45,7 +45,7 @@ const wilayah = {
   "Pademangan": ["Pademangan Barat","Pademangan Timur","Ancol"],
   "Tanjung Priok": ["Tanjung Priok","Sunter Agung","Sunter Jaya","Kebon Bawang","Sungai Bambu","Papanggo","Warakas","Koja"],
   "Koja": ["Koja","Tugu Selatan","Tugu Utara","Lagoa","Rawa Badak Selatan","Rawa Badak Utara"],
-  "Cilincing": ["Cilincing","Semper Barat","Semper Timur","Rorotan","Marunda","Kali Baru","Sukapura","Kalibaru"],
+  "Cilincing": ["Cilincing","Semper Barat","Semper Timur","Rorotan","Marunda","Kali Baru","Sukapura"],
   "Kelapa Gading": ["Kelapa Gading Barat","Kelapa Gading Timur","Pegangsaan Dua"],
   "Kepulauan Seribu Utara": ["Pulau Panggang","Pulau Kelapa","Pulau Harapan"],
   "Kepulauan Seribu Selatan": ["Pulau Tidung","Pulau Pari","Pulau Untung Jawa"]
