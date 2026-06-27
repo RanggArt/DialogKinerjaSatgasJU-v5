@@ -21,7 +21,7 @@ const kasatgasData = {
   'Cilincing':            { nama: 'Jatiur Sinaga',                  nip: '198211012009041002' },
   'Sukapura':             { nama: 'Rangga Riswanto, S.Kom., M.A',   nip: '198411182009041003' },
   'Marunda':              { nama: 'Nurdiyanto',                     nip: '198601122009041006' },
-  'Kalibaru':             { nama: 'Sarwanto',                       nip: '198110072009041007' },
+  'Kali Baru':             { nama: 'Sarwanto',                       nip: '198110072009041007' },
   'Semper Timur':         { nama: 'Okto Perdian',                   nip: '198210232008011010' },
   'Rorotan':              { nama: 'Djoko Pramono',                  nip: '197204021997031006' },
   'Semper Barat':         { nama: 'Ruri Ashari Sibarani',           nip: '198905132011011002' },
