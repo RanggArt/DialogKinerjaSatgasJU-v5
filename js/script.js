@@ -280,6 +280,10 @@ function bukaModal(id) {
 
   const narasiTeks = (st.narasi && st.narasi.trim()) ? st.narasi : (baris.progres || '—');
 
+  // Menentukan path/lokasi file tanda tangan berdasarkan nama Kelurahan.
+  // Pastikan file PNG Bapak bernama sama persis dengan nama kelurahan (contoh: Sukapura.png)
+  const lokasiTtd = `ttd/${kel}.png`;
+
   document.getElementById('dokumen-cetak').innerHTML = `
     <div class="dok-kop">
       <div class="judul-utama">Satuan Tugas Gulkarmat Jakarta Utara</div>
@@ -315,7 +319,11 @@ function bukaModal(id) {
       <div class="blok-ttd">
         <div class="kota-tgl">Jakarta, ${bulan}</div>
         <div class="jabatan">Satuan Tugas Kelurahan ${kel}</div>
-        <div class="ttd-ruang"></div>
+        
+        <div class="ttd-ruang">
+          <img src="${lokasiTtd}" class="img-ttd-digital" onerror="this.style.display='none'" alt="Tanda Tangan ${kel}">
+        </div>
+        
         <div class="garis-ttd"></div>
         <div class="nama">${kasatgas.nama}</div>
         <div class="nip">NIP ${kasatgas.nip}</div>
