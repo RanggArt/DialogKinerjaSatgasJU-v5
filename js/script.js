@@ -1,5 +1,6 @@
 let selKec, selKel;
 const state = {};
+let currentCetakId = null;
 
 // Membuat state kosong untuk ID 1-20
 for (let i = 1; i <= 20; i++) { 
@@ -227,7 +228,10 @@ function bukaModalDenganKonfirmasi(id) {
   bukaModal(id);
 }
 
-function bukaModal(id) {
+
+ function bukaModal(id) {
+  currentCetakId = id; // <-- Tambahkan baris ini di paling atas fungsi
+
   document.getElementById('btn-modal-print').style.display = 'block';
   document.getElementById('modal-title-text').textContent = "Preview Bukti Dukung";
   document.getElementById('modal-box').classList.remove('mode-foto');
@@ -333,17 +337,45 @@ function bukaFotoProfil(src) {
   dokCetak.innerHTML = `<img src="${src}" class="img-besar" alt="Rangga Riswanto">`;
   document.getElementById('modal-overlay').classList.add('aktif');
 }
-
+function getKataKunci(id) {
+  const kataKunciMap = {
+    1: 'Peningkatan_Keterampilan_Petugas',
+    2: 'Pendataan_Bangunan_Gedung',
+    3: 'Evaluasi_Kesiapsiagaan',
+    4: 'Laporan_Evaluasi_Kesiapsiagaan',
+    5: 'Komunitas_Pembelajar',
+    6: 'SKM_Sosialisasi',
+    7: 'SKM_Pemadaman',
+    8: 'Investigasi_Awal_Kebakaran',
+    9: 'Pemeriksaan_Bangunan_Gedung',
+    10: 'Data_Pemeriksaan_Bangunan_Gedung'
+  };
+  return kataKunciMap[id] || 'Dokumen_Kinerja';
+}
 function cetakDokumen() {
   // Reset scroll layar utama ke atas sebelum proses cetak canvas dimulai
   window.scrollTo(0, 0);
 
   const elemen = document.getElementById('dokumen-cetak');
-  const kel = getKel();
-  const bulan = getBulan();
-  const labelPeriode = getLabelPeriode();
+  
+  // Ambil nilai raw dari input bulan (contoh: "2026-06")
+  const valBulan = document.getElementById('input-bulan').value;
+  let namaBulan = "Bulan";
+  let tahun = "Tahun";
+  
+  if (valBulan) {
+    const [yr, mo] = valBulan.split('-');
+    const listBulan = ['Januari','Februari','Maret','April','Mei','Juni',
+                       'Juli','Agustus','September','Oktober','November','Desember'];
+    namaBulan = listBulan[parseInt(mo) - 1];
+    tahun = yr;
+  }
 
-  const namaFile = `Bukti_Dukung_${kel}_${bulan.replace(/\s+/g, '_')}_${labelPeriode.replace(/\s+/g, '_')}.pdf`;
+  const periode = getPeriode(); // Menghasilkan '1' atau '2'
+  const kataKunci = getKataKunci(currentCetakId);
+
+  // Format File: Bkt_Dkg_(namakata kunci)_Periode(1/2)_(Bulan)_(Tahun).pdf
+  const namaFile = `Bkt_Dkg_${kataKunci}_Periode${periode}_${namaBulan}_${tahun}.pdf`;
 
   const opsi = {
     margin:       [15, 15, 15, 15],
@@ -365,7 +397,6 @@ function cetakDokumen() {
     tutupModal();
   }, 500); 
 }
-
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) tutupModal();
