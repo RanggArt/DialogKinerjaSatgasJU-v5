@@ -43,6 +43,24 @@ function updateHeader() {
   if (sub) sub.innerHTML = `Kelurahan ${kel} &nbsp;·&nbsp; Kecamatan ${kec} &nbsp;·&nbsp; Kota Administrasi Jakarta Utara`;
 }
 
+function getKataKunci(id) {
+  const daftarKataKunci = {
+    1: 'Pembinaan_Fisik',
+    2: 'Pendataan_Bangunan',
+    3: 'Evaluasi_Kesiapsiagaan',
+    4: 'Rekomendasi_Pelatihan',
+    5: 'Knowledge_Management',
+    6: 'SKM_Sosialisasi',
+    7: 'SKM_Pemadaman',
+    8: 'Investigasi_Kebakaran',
+    9: 'Pemeriksaan_Bangunan',
+    10: 'Data_Pemeriksaan_Bangunan',
+    11: 'Evaluasi_Operasi_Pemadaman',
+    12: 'Evaluasi_Operasi_Penyelamatan'
+  };
+  return daftarKataKunci[id] || `Indikator_${id}`;
+}
+
 function getBarisList() {
   const kel = getKel();
   const kec = getKec();
@@ -59,7 +77,7 @@ function getBarisList() {
       indikator: `Jumlah Bangunan Gedung tinggi, menengah dan rendah yang terdata sesuai instruksi Kadis Gulkarmat Nomor e-0002 tahun 2026 lingkup Kelurahan ${kel}`,
       rencanaAksi: `Melakukan koordinasi pendataan bangunan gedung di tingkat kelurahan ${kel}`,
       kriteriaOutput: `Terlaksananya pendataan bangunan gedung di tingkat kelurahan ${kel}`,
-      progres: `Melaksanakan pendataan bangunan gedung tinggi, menengah, dan rendah di wilayah Kelurahan ${kel} melalui koordinasi dengan pengurus RT/RW and pengelola gedung, sesuai Instruksi Kepala Dinas Gulkarmat Nomor e-0002 Tahun 2026.`
+      progres: `Melaksanakan pendataan bangunan gedung tinggi, menengah, dan rendah di wilayah Kelurahan ${kel} melalui koordinasi dengan pengurus RT/RW dan pengelola gedung, sesuai Instruksi Kepala Dinas Gulkarmat Nomor e-0002 Tahun 2026.`
     },
     {
       id: 3,
@@ -116,6 +134,20 @@ function getBarisList() {
       rencanaAksi: `RA 2. Melaksanakan penyusunan data hasil pemeriksaan dan pengawasan bangunan gedung pada wilayah kelurahan ${kel}`,
       kriteriaOutput: `Tersusunnya data hasil pemeriksaan dan pengawasan bangunan gedung pada wilayah kelurahan ${kel}`,
       progres: `Menyusun data hasil pemeriksaan dan pengawasan sarana proteksi kebakaran pada bangunan gedung di wilayah Kelurahan ${kel}, sebagai bahan laporan bangunan gedung yang telah diperiksa.`
+    },
+    {
+      id: 11,
+      indikator: `Jumlah laporan pelaksanaan kegiatan operasi pemadaman kebakaran, penyelamatan dan operasi lainnya sesuai lingkup kelurahan ${kel}`,
+      rencanaAksi: `Membuat laporan monitoring dan evaluasi pelaksanaan kegiatan operasi pemadaman kebakaran sesuai lingkup kelurahan ${kel}`,
+      kriteriaOutput: `Tersedianya laporan monitoring dan evaluasi pelaksanaan kegiatan operasi pemadaman kebakaran sesuai lingkup kelurahan ${kel}`,
+      progres: `[ OPSI ADA KEJADIAN ]\nMelaksanakan monitoring dan evaluasi terhadap jalannya operasi pemadaman kebakaran serta penyelamatan di wilayah Kelurahan ${kel}, kemudian menyusun data tersebut ke dalam laporan pelaksanaan kegiatan sebagai bahan evaluasi operasional.\n\n[ OPSI TIDAK ADA KEJADIAN ]\nPada periode ini tidak terdapat kejadian kebakaran maupun kebutuhan operasi penyelamatan di wilayah Kelurahan ${kel}. Petugas tetap bersiaga penuh 24 jam serta melakukan monitoring wilayah guna memastikan situasi tetap aman dan kondusif.`
+    },
+    {
+      id: 12,
+      indikator: `Jumlah laporan pelaksanaan kegiatan operasi pemadaman kebakaran, penyelamatan dan operasi lainnya sesuai lingkup kelurahan ${kel}`,
+      rencanaAksi: `Membuat laporan monitoring dan evaluasi pelaksanaan kegiatan penyelamatan sesuai lingkup kelurahan ${kel}`,
+      kriteriaOutput: `Tersedianya laporan monitoring dan evaluasi pelaksanaan kegiatan penyelamatan sesuai lingkup kelurahan ${kel}`,
+      progres: `[ OPSI ADA KEJADIAN ]\nMelaksanakan monitoring dan evaluasi terhadap pelaksanaan kegiatan operasi penyelamatan dan evakuasi (seperti penanganan sarang tawon, ular, pohon tumbang, atau evakuasi darurat lainnya) di wilayah Kelurahan ${kel}, serta menyusun dokumen laporan hasil evaluasi tersebut.\n\n[ OPSI TIDAK ADA KEJADIAN ]\nPada periode ini tidak terdapat laporan atau permintaan operasi penyelamatan (evakuasi non-kebakaran) di wilayah Kelurahan ${kel}. Petugas tetap bersiaga penuh merespons laporan warga serta melakukan monitoring wilayah guna memastikan situasi tetap aman.`
     }
   ];
 }
@@ -167,7 +199,7 @@ function renderTabel() {
           <span class="hapus" onclick="hapusFoto(${b.id})">✕ Hapus foto</span>
         </div>
       </td>
-     <td class="col-cetak">
+      <td class="col-cetak">
         <button class="btn-cetak" id="btn-cetak-${b.id}" onclick="bukaModalDenganKonfirmasi(${b.id})">Simpan PDF</button>
       </td>
     `;
@@ -198,7 +230,6 @@ function hapusFoto(id) {
   state[id].foto = null;
   document.getElementById('preview-' + id).style.display = 'none';
   document.getElementById('upload-area-' + id).style.display = 'block';
-  document.getElementById('btn-cetak-' + id).disabled = true;
 }
 
 function getPeriode() {
@@ -228,10 +259,8 @@ function bukaModalDenganKonfirmasi(id) {
   bukaModal(id);
 }
 
-
- function bukaModal(id) {
-  currentCetakId = id; // <-- Tambahkan baris ini di paling atas fungsi
-
+function bukaModal(id) {
+  currentCetakId = id;
   document.getElementById('btn-modal-print').style.display = 'block';
   document.getElementById('modal-title-text').textContent = "Preview Bukti Dukung";
   document.getElementById('modal-box').classList.remove('mode-foto');
@@ -247,18 +276,18 @@ function bukaModalDenganKonfirmasi(id) {
 
   const fotoHTML = st.foto
     ? `<img src="${st.foto}" alt="Foto kegiatan" />`
-    : `<div class="dok-foto-placeholder">[ Foto Kegiatan ]</div>`;
+    : `<div class="dok-foto-placeholder">[ Foto Kegiatan Belum Diupload ]</div>`;
 
   const narasiTeks = (st.narasi && st.narasi.trim()) ? st.narasi : (baris.progres || '—');
 
   document.getElementById('dokumen-cetak').innerHTML = `
     <div class="dok-kop">
-      <div class="judul-utama">Satuan Tugas Penanggulangan Kebakaran<br>dan Penyelamatan Kelurahan ${kel}</div>
-      <div class="sub-judul">Kecamatan ${kec}&nbsp;·&nbsp; Kota Administrasi Jakarta Utara</div>
+      <div class="judul-utama">Satuan Tugas Gulkarmat Jakarta Utara</div>
+      <div class="sub-judul">Kelurahan ${kel} &nbsp;·&nbsp; Kecamatan ${kec} &nbsp;·&nbsp; Kota Administrasi Jakarta Utara</div>
     </div>
 
     <div class="dok-judul-doc">
-      <div class="judul-dialog">Bukti Dukung Dialog Kinerja</div>
+      <div class="judul-dialog">Dialog Kinerja</div>
       <div class="sub-dialog">${baris.indikator}</div>
       <div class="sub-dialog">Bulan ${bulan} &nbsp;·&nbsp; ${labelPeriode}</div>
     </div>
@@ -275,7 +304,7 @@ function bukaModalDenganKonfirmasi(id) {
     </div>
 
     <div class="dok-narasi-label">Progres Kegiatan:</div>
-    <div class="dok-narasi">${narasiTeks}</div>
+    <div class="dok-narasi">${narasiTeks.replace(/\n/g, '<br>')}</div>
 
     <div class="dok-foto-area">
       ${fotoHTML}
@@ -286,11 +315,7 @@ function bukaModalDenganKonfirmasi(id) {
       <div class="blok-ttd">
         <div class="kota-tgl">Jakarta, ${bulan}</div>
         <div class="jabatan">Satuan Tugas Kelurahan ${kel}</div>
-        
-        <div class="ttd-ruang">
-          <img src="ttd/${kasatgas.nip}.png" class="img-ttd-digital" alt="Tanda Tangan" onerror="this.style.display='none'" />
-        </div>
-        
+        <div class="ttd-ruang"></div>
         <div class="garis-ttd"></div>
         <div class="nama">${kasatgas.nama}</div>
         <div class="nip">NIP ${kasatgas.nip}</div>
@@ -322,6 +347,7 @@ function copyNarasi(id) {
 function tutupModal() {
   document.getElementById('modal-overlay').classList.remove('aktif');
   document.getElementById('modal-box').classList.remove('mode-foto');
+  currentCetakId = null;
 }
 
 function bukaFotoProfil(src) {
@@ -337,31 +363,11 @@ function bukaFotoProfil(src) {
   dokCetak.innerHTML = `<img src="${src}" class="img-besar" alt="Rangga Riswanto">`;
   document.getElementById('modal-overlay').classList.add('aktif');
 }
-function getKataKunci(id) {
-  const kataKunciMap = {
-    1: 'Peningkatan_Keterampilan_Petugas',
-    2: 'Pendataan_Bangunan_Gedung',
-    3: 'Evaluasi_Kesiapsiagaan',
-    4: 'Laporan_Evaluasi_Kesiapsiagaan',
-    5: 'Komunitas_Pembelajar',
-    6: 'SKM_Sosialisasi',
-    7: 'SKM_Pemadaman',
-    8: 'Investigasi_Awal_Kebakaran',
-    9: 'Pemeriksaan_Bangunan_Gedung',
-    10: 'Data_Pemeriksaan_Bangunan_Gedung'
-  };
-  return kataKunciMap[id] || 'Dokumen_Kinerja';
-}
-function cetakDokumen() {
-  // Reset scroll layar utama ke atas sebelum proses cetak canvas dimulai
-  window.scrollTo(0, 0);
 
+function cetakDokumen() {
   const elemen = document.getElementById('dokumen-cetak');
-  
-  // Ambil nilai raw dari input bulan (contoh: "2026-06")
   const valBulan = document.getElementById('input-bulan').value;
-  let namaBulan = "Bulan";
-  let tahun = "Tahun";
+  let namaBulan = 'Bulan', tahun = 'Tahun';
   
   if (valBulan) {
     const [yr, mo] = valBulan.split('-');
@@ -371,10 +377,9 @@ function cetakDokumen() {
     tahun = yr;
   }
 
-  const periode = getPeriode(); // Menghasilkan '1' atau '2'
+  const periode = getPeriode();
   const kataKunci = getKataKunci(currentCetakId);
 
-  // Format File: Bkt_Dkg_(namakata kunci)_Periode(1/2)_(Bulan)_(Tahun).pdf
   const namaFile = `Bkt_Dkg_${kataKunci}_Periode${periode}_${namaBulan}_${tahun}.pdf`;
 
   const opsi = {
@@ -390,13 +395,11 @@ function cetakDokumen() {
     jsPDF:        { unit: 'mm', format: 'legal', orientation: 'portrait' }
   };
 
-  const worker = html2pdf().set(opsi).from(elemen);
-  worker.save();
-
-  setTimeout(() => {
+  html2pdf().set(opsi).from(elemen).save().then(() => {
     tutupModal();
-  }, 500); 
+  });
 }
+
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) tutupModal();
